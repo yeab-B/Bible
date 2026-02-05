@@ -158,6 +158,17 @@ Bible/
 
 For a detailed explanation of the project structure, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
+## Documentation 📚
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[QUICKSTART.md](docs/QUICKSTART.md)** - Quick 5-minute setup guide
+- **[USAGE.md](docs/USAGE.md)** - Detailed usage instructions and troubleshooting
+- **[FEATURES.md](docs/FEATURES.md)** - Complete feature showcase with examples
+- **[SECURITY.md](docs/SECURITY.md)** - Security considerations and best practices
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Project architecture and folder structure
+- **[FOLDER_STRUCTURE_IMPLEMENTATION.md](docs/FOLDER_STRUCTURE_IMPLEMENTATION.md)** - Details about the professional folder structure
+
 ## Error Handling 🛡️
 
 The bot includes comprehensive error handling:

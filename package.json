@@ -11,7 +11,13 @@
     "type": "git",
     "url": "git+https://github.com/yeab-B/Bible.git"
   },
-  "keywords": ["telegram", "bot", "bible", "verses", "daily"],
+  "keywords": [
+    "telegram",
+    "bot",
+    "bible",
+    "verses",
+    "daily"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -19,7 +25,8 @@
   },
   "homepage": "https://github.com/yeab-B/Bible#readme",
   "dependencies": {
-    "node-telegram-bot-api": "^0.66.0",
-    "node-cron": "^3.0.3"
+    "dotenv": "^17.2.3",
+    "node-cron": "^3.0.3",
+    "node-telegram-bot-api": "^0.66.0"
   }
 }

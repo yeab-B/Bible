@@ -17,7 +17,7 @@ class BibleDataHandler {
    */
   loadBibleData() {
     try {
-      const filePath = path.join(__dirname, 'bible.json');
+      const filePath = path.join(__dirname, '../data/bible.json');
       const rawData = fs.readFileSync(filePath, 'utf8');
       this.bibleData = JSON.parse(rawData);
     } catch (error) {

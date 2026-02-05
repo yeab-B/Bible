@@ -1,12 +1,13 @@
 // Test script to validate bot functionality without actually running it
 const fs = require('fs');
+const path = require('path');
 
 console.log('🧪 Running validation tests...\n');
 
 // Test 1: Check if bible.json exists and is valid
 console.log('Test 1: Validating bible.json...');
 try {
-  const bibleData = JSON.parse(fs.readFileSync('./bible.json', 'utf8'));
+  const bibleData = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/bible.json'), 'utf8'));
   console.log('✅ bible.json is valid JSON');
   console.log(`   📚 Found ${bibleData.books.length} books`);
   
@@ -47,7 +48,7 @@ try {
 // Test 2: Check if config.js is valid
 console.log('Test 2: Validating config.js...');
 try {
-  const config = require('./config.js');
+  const config = require('../src/config.js');
   
   if (!config.botToken) {
     console.log('⚠️  Bot token not configured (expected for initial setup)');
@@ -72,7 +73,7 @@ try {
 // Test 3: Test helper functions
 console.log('Test 3: Testing helper functions...');
 try {
-  const bibleData = JSON.parse(fs.readFileSync('./bible.json', 'utf8'));
+  const bibleData = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/bible.json'), 'utf8'));
   
   // Test getDailyVerse logic
   const randomBook = bibleData.books[Math.floor(Math.random() * bibleData.books.length)];
@@ -120,7 +121,7 @@ try {
 console.log('Test 4: Validating bot.js syntax...');
 try {
   // Check if the file can be parsed
-  const botCode = fs.readFileSync('./bot.js', 'utf8');
+  const botCode = fs.readFileSync(path.join(__dirname, '../src/bot.js'), 'utf8');
   
   // Check for required components
   const requiredComponents = [
@@ -156,7 +157,7 @@ try {
 // Test 5: Check package.json dependencies
 console.log('Test 5: Validating dependencies...');
 try {
-  const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+  const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
   
   const requiredDeps = ['node-telegram-bot-api', 'node-cron'];
   requiredDeps.forEach(dep => {

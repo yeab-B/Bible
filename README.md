@@ -44,7 +44,7 @@ A feature-rich Telegram bot that delivers daily Bible verses and allows users to
 
 3. **Configure the bot**
    
-   Open `config.js` and add your bot token:
+   Open `src/config.js` and add your bot token:
    ```javascript
    botToken: 'YOUR_BOT_TOKEN_HERE'
    ```
@@ -61,7 +61,7 @@ A feature-rich Telegram bot that delivers daily Bible verses and allows users to
 
 ## Configuration ⚙️
 
-Edit `config.js` to customize:
+Edit `src/config.js` to customize:
 
 - **Bot Token**: Your Telegram bot token from BotFather
 - **Daily Verse Time**: Cron schedule for daily verses (default: 8:00 AM)
@@ -81,7 +81,7 @@ module.exports = {
 
 ## Bible Data 📚
 
-The bot uses `bible.json` to store Bible verses. The JSON structure:
+The bot uses `data/bible.json` to store Bible verses. The JSON structure:
 
 ```json
 {
@@ -101,7 +101,7 @@ The bot uses `bible.json` to store Bible verses. The JSON structure:
 }
 ```
 
-You can extend `bible.json` with more books, chapters, and verses as needed.
+You can extend `data/bible.json` with more books, chapters, and verses as needed.
 
 ## Usage Examples 📱
 
@@ -135,13 +135,28 @@ Bot: 📖 John 3:16
 
 ```
 Bible/
-├── bot.js           # Main bot application
-├── config.js        # Configuration file
-├── bible.json       # Bible data (books, chapters, verses)
-├── package.json     # Node.js dependencies
-├── .gitignore       # Git ignore rules
-└── README.md        # This file
+├── src/                 # Source code
+│   ├── bot.js           # Main bot application
+│   ├── config.js        # Configuration file
+│   ├── bibleDataHandler.js    # Bible data access
+│   ├── commandHandlers.js     # Command handlers
+│   └── keyboardHelper.js      # Keyboard utilities
+├── data/                # Data files
+│   └── bible.json       # Bible content
+├── tests/               # Test files
+│   └── test.js          # Validation tests
+├── docs/                # Documentation
+│   ├── FEATURES.md
+│   ├── USAGE.md
+│   ├── QUICKSTART.md
+│   └── ...
+├── README.md            # Main documentation
+├── ARCHITECTURE.md      # Architecture details
+├── package.json         # Node.js dependencies
+└── .gitignore           # Git ignore rules
 ```
+
+For a detailed explanation of the project structure, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Error Handling 🛡️
 
@@ -162,7 +177,7 @@ The bot includes comprehensive error handling:
 
 ### Adding More Bible Content
 
-To add more books, chapters, or verses, edit `bible.json`:
+To add more books, chapters, or verses, edit `data/bible.json`:
 
 ```json
 {

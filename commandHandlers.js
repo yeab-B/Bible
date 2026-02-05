@@ -9,6 +9,9 @@ const {
   createVerseKeyboard
 } = require('./keyboardHelper');
 
+// Telegram's maximum message length
+const TELEGRAM_MAX_MESSAGE_LENGTH = 4096;
+
 /**
  * Handle /start command
  * Shows welcome message with a random daily verse
@@ -327,8 +330,9 @@ function handleCallbackQuery(bot, bibleHandler) {
       });
       
       // Telegram has a message length limit, so split if necessary
-      if (message.length > 4096) {
-        const chunks = message.match(/[\s\S]{1,4096}/g) || [];
+      if (message.length > TELEGRAM_MAX_MESSAGE_LENGTH) {
+        const regex = new RegExp(`[\\s\\S]{1,${TELEGRAM_MAX_MESSAGE_LENGTH}}`, 'g');
+        const chunks = message.match(regex) || [];
         chunks.forEach(chunk => {
           bot.sendMessage(chatId, chunk);
         });

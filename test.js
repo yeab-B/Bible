@@ -119,11 +119,8 @@ try {
 // Test 4: Validate bot.js syntax
 console.log('Test 4: Validating bot.js syntax...');
 try {
-  // Just check if the file can be parsed
+  // Check if the file can be parsed
   const botCode = fs.readFileSync('./bot.js', 'utf8');
-  if (botCode.length < 100) {
-    throw new Error('bot.js seems too short');
-  }
   
   // Check for required components
   const requiredComponents = [
@@ -135,7 +132,9 @@ try {
     '/books',
     '/read',
     'callback_query',
-    'subscribers'
+    'subscribers',
+    'loadSubscribers',
+    'saveSubscribers'
   ];
   
   requiredComponents.forEach(component => {

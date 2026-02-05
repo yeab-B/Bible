@@ -18,6 +18,34 @@ try {
 
 // Store user subscriptions for daily verses
 const subscribers = new Set();
+const SUBSCRIBERS_FILE = './subscribers.json';
+
+// Load subscribers from file
+function loadSubscribers() {
+  try {
+    if (fs.existsSync(SUBSCRIBERS_FILE)) {
+      const data = fs.readFileSync(SUBSCRIBERS_FILE, 'utf8');
+      const subscriberArray = JSON.parse(data);
+      subscriberArray.forEach(id => subscribers.add(id));
+      console.log(`📥 Loaded ${subscribers.size} subscribers from file`);
+    }
+  } catch (error) {
+    console.error('Error loading subscribers:', error.message);
+  }
+}
+
+// Save subscribers to file
+function saveSubscribers() {
+  try {
+    const subscriberArray = Array.from(subscribers);
+    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscriberArray, null, 2));
+  } catch (error) {
+    console.error('Error saving subscribers:', error.message);
+  }
+}
+
+// Load subscribers on startup
+loadSubscribers();
 
 // ==================== Helper Functions ====================
 
@@ -97,6 +125,7 @@ bot.onText(/\/start/, (msg) => {
   
   // Subscribe user to daily verses
   subscribers.add(chatId);
+  saveSubscribers();
 });
 
 /**
@@ -135,6 +164,7 @@ bot.onText(/\/dailyverse/, (msg) => {
   
   // Subscribe user to daily verses
   subscribers.add(chatId);
+  saveSubscribers();
 });
 
 /**
@@ -302,9 +332,11 @@ bot.on('callback_query', (query) => {
   
   // Handle chapter selection
   else if (data.startsWith('chapter_')) {
-    const parts = data.split('_');
-    const bookName = parts[1];
-    const chapterNum = parseInt(parts[2]);
+    // Parse: chapter_BookName_ChapterNum
+    // Use lastIndexOf to handle book names with underscores
+    const lastUnderscore = data.lastIndexOf('_');
+    const bookName = data.substring(8, lastUnderscore); // 8 is length of 'chapter_'
+    const chapterNum = parseInt(data.substring(lastUnderscore + 1));
     
     const book = getBook(bookName);
     if (!book) {

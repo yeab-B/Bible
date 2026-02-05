@@ -1,157 +1,125 @@
-# Bible Bot Usage Guide
+# Usage Guide for Bible Telegram Bot
 
-## Quick Start
+## Getting Your Bot Token
 
-1. **Get a Telegram Bot Token**
-   - Open Telegram and search for @BotFather
-   - Send `/newbot` command
-   - Follow the prompts to create your bot
-   - Copy the bot token provided
+1. Open Telegram and search for `@BotFather`
+2. Start a chat with BotFather
+3. Send `/newbot` command
+4. Follow the instructions:
+   - Choose a name for your bot (e.g., "My Bible Bot")
+   - Choose a username for your bot (must end in 'bot', e.g., "mybible_bot")
+5. BotFather will give you a token like: `1234567890:ABCdefGHIjklMNOpqrsTUVwxyz`
+6. Copy this token
 
-2. **Configure the Bot**
-   ```bash
-   # Copy the example environment file
-   cp .env.example .env
-   
-   # Edit .env and add your bot token
-   nano .env  # or use any text editor
-   ```
+## Configuration
 
-3. **Start the Bot**
-   ```bash
-   npm start
-   ```
+### Option 1: Environment Variable (Recommended for production)
 
-4. **Find Your Bot**
-   - Open Telegram
-   - Search for your bot by username
-   - Send `/start` to begin
-
-## Available Commands
-
-### `/start`
-Shows a welcome message with a random daily Bible verse.
-
-**Example:**
-```
-🙏 Welcome to the Bible Bot! 🙏
-
-Here's your daily verse:
-
-📖 John 3:16
-
-For God so loved the world, that he gave his only begotten Son...
+```bash
+export BOT_TOKEN='your_token_here'
+npm start
 ```
 
-### `/dailyverse`
-Get a new random Bible verse at any time.
+Or create a `.env` file:
+```bash
+cp .env.example .env
+# Edit .env and add your token
+```
 
-### `/books`
-Browse all available books in the Bible. Returns an interactive keyboard with book names.
+### Option 2: Edit config.js (Good for development)
 
-**Flow:**
-1. Click on a book name (e.g., "Genesis")
-2. See all available chapters
-3. Select a chapter number
-4. Choose to read:
-   - A specific verse (click verse number)
-   - All verses (click "📖 Read All Verses")
+Open `config.js` and replace `YOUR_BOT_TOKEN_HERE` with your actual token:
 
-### `/read`
-Same as `/books` - starts the reading experience.
+```javascript
+botToken: '1234567890:ABCdefGHIjklMNOpqrsTUVwxyz',
+```
 
-### `/help`
-Shows all available commands and instructions.
+## Running the Bot
 
-## Navigation Features
+```bash
+npm start
+```
 
-### Inline Keyboards
-The bot uses interactive buttons for easy navigation:
-- **Book Selection**: Up to 6 books per page (2 per row)
-- **Chapter Selection**: Up to 12 chapters per page (4 per row)
-- **Verse Selection**: Up to 12 verses per page (4 per row)
+You should see:
+```
+✅ Bible Bot is running...
+📅 Daily verses scheduled at: 0 8 * * *
+📖 Loaded Bible data with 7 books
+🤖 Bot is ready to receive commands!
+```
 
-### Pagination
-When there are many items, use the navigation buttons:
-- `⬅️ Previous` - Go to previous page
-- `➡️ Next` - Go to next page
+## Testing the Bot
 
-### Back Navigation
-Every screen has a back button:
-- `🔙 Back to Books` - Return from chapter selection
-- `🔙 Back to Chapters` - Return from verse selection
+1. Open Telegram on your phone or desktop
+2. Search for your bot by username (e.g., @mybible_bot)
+3. Start a conversation
+4. Try these commands:
 
-## Examples
+### Command Examples
 
-### Reading a Specific Verse
-1. Send `/read`
-2. Click "John"
-3. Click "3" (chapter)
-4. Click "16" (verse)
-5. Receive: "📖 John 3:16\n\nFor God so loved the world..."
+**Start the bot:**
+```
+/start
+```
+Response: Welcome message with today's daily verse
 
-### Reading a Full Chapter
-1. Send `/books`
-2. Click "Psalms"
-3. Click "23" (chapter)
-4. Click "📖 Read All Verses"
-5. Receive all 4 verses of Psalm 23
+**Get a daily verse:**
+```
+/dailyverse
+```
+Response: Random verse from the Bible
 
-### Getting Daily Inspiration
-1. Send `/dailyverse`
-2. Receive a random verse from anywhere in the Bible
-3. Send again for a different verse
+**Browse books:**
+```
+/books
+```
+Response: Interactive buttons showing all available books
 
-## Error Handling
+**Read specific verses:**
+```
+/read John 3:16
+/read Psalms 23:1
+/read Genesis 1:1
+```
 
-The bot gracefully handles errors:
-- **Invalid Book**: "❌ Book not found!"
-- **Invalid Chapter**: "❌ Chapter not found!"
-- **Invalid Verse**: "❌ Verse not found!"
+**Get help:**
+```
+/help
+```
 
-## Tips
+## Customizing Daily Verse Time
 
-- Use `/dailyverse` multiple times for different random verses
-- The bot remembers your navigation - use back buttons to explore
-- Long chapters are automatically split into multiple messages
-- All responses include book, chapter, and verse references
+Edit `config.js` to change when daily verses are sent:
 
-## Troubleshooting
+```javascript
+// Format: minute hour day month weekday
+dailyVerseTime: '0 8 * * *',  // 8:00 AM every day
+```
 
-### Bot Not Responding
-- Check that `npm start` is running
-- Verify BOT_TOKEN in .env is correct
-- Check for error messages in the console
-
-### Wrong Verse Showing
-- Verify bible.json has the correct data
-- Check that book/chapter/verse numbers match your expectations
-
-### Connection Issues
-- Ensure you have internet connection
-- Check if Telegram is accessible
-- Verify firewall/proxy settings
+Examples:
+- `'0 6 * * *'` - 6:00 AM every day
+- `'0 12 * * *'` - 12:00 PM (noon) every day
+- `'0 20 * * *'` - 8:00 PM every day
+- `'0 9 * * 1'` - 9:00 AM every Monday
 
 ## Extending the Bible Data
 
-To add more books, chapters, or verses:
+The current `bible.json` includes a sample of Bible books. To add more:
 
 1. Open `bible.json`
-2. Follow the existing structure:
+2. Add books, chapters, and verses following this structure:
+
 ```json
 {
   "books": [
     {
-      "id": 7,
       "name": "BookName",
       "chapters": [
         {
           "chapter": 1,
           "verses": [
-            {
-              "verse": 1,
-              "text": "Verse text here."
-            }
+            { "verse": 1, "text": "Verse text here" },
+            { "verse": 2, "text": "Another verse text" }
           ]
         }
       ]
@@ -159,13 +127,121 @@ To add more books, chapters, or verses:
   ]
 }
 ```
-3. Restart the bot
+
+3. Restart the bot to load the new data
+
+## Features in Detail
+
+### 1. Daily Verses
+- Automatically sends a random verse to all subscribers at scheduled time
+- Users are automatically subscribed when they use `/start` or `/dailyverse`
+- Verses are randomly selected from all available books
+
+### 2. Interactive Book Navigation
+- `/books` shows all books as buttons
+- Clicking a book shows all its chapters as buttons
+- Clicking a chapter displays all verses in that chapter
+- Back buttons allow easy navigation
+
+### 3. Quick Verse Reading
+- Use `/read Book Chapter:Verse` format
+- Example: `/read John 3:16`
+- Case-insensitive book names
+- Instant verse retrieval
+
+### 4. Error Handling
+- Invalid book names suggest using `/books`
+- Invalid chapters show available chapters
+- Invalid verses show available verses
+- Helpful error messages guide users
+
+## Troubleshooting
+
+### Bot not responding?
+- Check if the bot is running (`npm start`)
+- Verify your bot token is correct
+- Make sure there are no firewall issues
+- Check console for error messages
+
+### Daily verses not sending?
+- Verify the cron schedule in `config.js`
+- Check system time is correct
+- Bot must be running at scheduled time
+- Check console logs for errors
+
+### "Polling error"?
+- Another instance of the bot might be running
+- Token might be invalid
+- Kill all node processes and restart:
+  ```bash
+  killall node
+  npm start
+  ```
+
+### Can't find certain books?
+- Check if the book exists in `bible.json`
+- Book names are case-insensitive
+- Use `/books` to see all available books
+
+## Production Deployment
+
+### Using PM2 (Process Manager)
+
+```bash
+npm install -g pm2
+pm2 start bot.js --name bible-bot
+pm2 startup  # Enable auto-start on system boot
+pm2 save
+```
+
+Monitor the bot:
+```bash
+pm2 status
+pm2 logs bible-bot
+```
+
+### Using Docker
+
+Create `Dockerfile`:
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "start"]
+```
+
+Build and run:
+```bash
+docker build -t bible-bot .
+docker run -d --name bible-bot -e BOT_TOKEN='your_token' bible-bot
+```
+
+## Security Notes
+
+- **Never commit your bot token** to git
+- Use environment variables for sensitive data
+- Keep `.env` in `.gitignore`
+- Regularly update dependencies: `npm update`
+- Monitor bot logs for suspicious activity
+
+## Performance Tips
+
+- The bot handles multiple users simultaneously
+- No database required for basic operation
+- Add more verses to `bible.json` as needed
+- Consider using a database for user preferences (future enhancement)
 
 ## Support
 
-For issues or questions:
-- Check the main README.md
-- Open an issue on GitHub
-- Review the test.js file for functionality examples
+If you encounter issues:
+1. Check the troubleshooting section
+2. Review console logs for errors
+3. Verify all configuration settings
+4. Test with `/start` command first
+5. Open an issue on GitHub if needed
 
-May God bless you as you use this bot! 🙏
+---
+
+**Made with ❤️ for spreading the Word of God**

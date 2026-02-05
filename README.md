@@ -1,33 +1,33 @@
 # Bible Telegram Bot 📖
 
-A feature-rich Telegram bot that provides daily Bible verses and allows users to browse and read the Bible interactively.
+A feature-rich Telegram bot that delivers daily Bible verses and allows users to browse and read the Bible interactively.
 
 ## Features ✨
 
-- 📖 **Daily Verse**: Get a random inspirational Bible verse
-- 📚 **Browse Books**: Navigate through all books of the Bible
-- 🔍 **Chapter Selection**: Choose any chapter from your selected book
-- 📝 **Verse Reading**: Read individual verses or entire chapters
-- ⌨️ **Inline Keyboards**: Easy navigation with interactive buttons
-- 🎯 **Dynamic Loading**: Verses loaded from JSON file
-- ✅ **Error Handling**: Graceful handling of invalid chapters/verses
-- 🧩 **Modular Code**: Clean, well-commented, and maintainable structure
+- 🌅 **Daily Verse**: Automatically sends a random Bible verse to subscribers at a scheduled time
+- 📚 **Browse Books**: Interactive navigation through all books of the Bible
+- 📖 **Read Verses**: Quick access to specific verses using commands
+- ⌨️ **Inline Keyboards**: Easy navigation with buttons for books, chapters, and verses
+- 🔍 **Smart Search**: Read specific verses with `/read BookName Chapter:Verse` format
+- ⚠️ **Error Handling**: Graceful handling of invalid book, chapter, or verse requests
 
 ## Commands 🤖
 
-- `/start` - Welcome message with a daily verse
-- `/dailyverse` - Get a random daily Bible verse
-- `/books` - Browse all books of the Bible
-- `/read` - Start reading the Bible (same as /books)
-- `/help` - Show help message with available commands
+- `/start` - Welcome message with today's daily verse
+- `/help` - Display help information and available commands
+- `/dailyverse` - Get a random daily verse
+- `/books` - Browse all books of the Bible with interactive buttons
+- `/read <Book> <Chapter>:<Verse>` - Read a specific verse
+  - Example: `/read John 3:16`
+  - Example: `/read Psalms 23:1`
 
 ## Installation 🚀
 
 ### Prerequisites
 
-- Node.js (v12 or higher)
-- npm or yarn
-- A Telegram Bot Token (get one from [@BotFather](https://t.me/BotFather))
+- Node.js (v14 or higher)
+- npm (Node Package Manager)
+- A Telegram Bot Token (get one from [@BotFather](https://t.me/botfather))
 
 ### Setup Steps
 
@@ -42,76 +42,57 @@ A feature-rich Telegram bot that provides daily Bible verses and allows users to
    npm install
    ```
 
-3. **Configure environment variables**
-   ```bash
-   cp .env.example .env
+3. **Configure the bot**
+   
+   Open `config.js` and add your bot token:
+   ```javascript
+   botToken: 'YOUR_BOT_TOKEN_HERE'
    ```
    
-   Edit `.env` and add your Telegram Bot Token:
-   ```
-   BOT_TOKEN=your_telegram_bot_token_here
+   Or set it as an environment variable:
+   ```bash
+   export BOT_TOKEN='YOUR_BOT_TOKEN_HERE'
    ```
 
-4. **Start the bot**
+4. **Run the bot**
    ```bash
    npm start
    ```
 
-## Project Structure 📁
+## Configuration ⚙️
 
+Edit `config.js` to customize:
+
+- **Bot Token**: Your Telegram bot token from BotFather
+- **Daily Verse Time**: Cron schedule for daily verses (default: 8:00 AM)
+- **Display Settings**: Verses per page, chapters per row, etc.
+
+```javascript
+module.exports = {
+  botToken: process.env.BOT_TOKEN || 'YOUR_BOT_TOKEN_HERE',
+  dailyVerseTime: '0 8 * * *',  // 8:00 AM every day
+  settings: {
+    versesPerPage: 10,
+    chaptersPerRow: 5,
+    booksPerPage: 10
+  }
+};
 ```
-Bible/
-├── bot.js                  # Main bot entry point
-├── bibleDataHandler.js     # Bible data management module
-├── commandHandlers.js      # Command and callback handlers
-├── keyboardHelper.js       # Inline keyboard generation
-├── bible.json              # Bible books, chapters, and verses data
-├── package.json            # Project dependencies and scripts
-├── .env.example           # Environment variables template
-├── .gitignore             # Git ignore rules
-└── README.md              # This file
-```
 
-## How to Use 📱
+## Bible Data 📚
 
-1. **Start the bot**: Send `/start` to receive a welcome message and daily verse
-
-2. **Get daily verse**: Use `/dailyverse` anytime for a random inspirational verse
-
-3. **Browse books**: Use `/books` or `/read` to see all available books
-
-4. **Select a book**: Click on any book button to see its chapters
-
-5. **Choose a chapter**: Click on a chapter number to see available verses
-
-6. **Read verses**: 
-   - Click on a verse number to read that specific verse
-   - Click "📖 Read All Verses" to read the entire chapter
-
-7. **Navigate**: Use the arrow buttons (⬅️ ➡️) to navigate between pages
-
-8. **Go back**: Use the 🔙 Back buttons to return to the previous menu
-
-## Customization 🎨
-
-### Adding More Bible Content
-
-Edit `bible.json` to add more books, chapters, and verses. Follow this structure:
+The bot uses `bible.json` to store Bible verses. The JSON structure:
 
 ```json
 {
   "books": [
     {
-      "id": 1,
       "name": "Genesis",
       "chapters": [
         {
           "chapter": 1,
           "verses": [
-            {
-              "verse": 1,
-              "text": "In the beginning God created the heaven and the earth."
-            }
+            { "verse": 1, "text": "In the beginning..." }
           ]
         }
       ]
@@ -120,58 +101,116 @@ Edit `bible.json` to add more books, chapters, and verses. Follow this structure
 }
 ```
 
-### Modifying Bot Behavior
+You can extend `bible.json` with more books, chapters, and verses as needed.
 
-- **Daily Verse Logic**: Edit `getRandomVerse()` in `bibleDataHandler.js`
-- **Command Responses**: Modify handlers in `commandHandlers.js`
-- **Keyboard Layout**: Adjust keyboard functions in `keyboardHelper.js`
-- **Pagination**: Change `itemsPerPage` parameters in keyboard functions
+## Usage Examples 📱
 
-## Error Handling ⚠️
+### Getting Started
+```
+User: /start
+Bot: 🌟 Welcome to the Bible Bot!
+     Here's your daily verse:
+     📖 John 3:16
+     For God so loved the world...
+```
+
+### Browsing Books
+```
+User: /books
+Bot: [Shows buttons: Genesis | Exodus | Psalms | ...]
+User: [Clicks "Genesis"]
+Bot: [Shows buttons: Ch 1 | Ch 2 | ...]
+User: [Clicks "Ch 1"]
+Bot: Displays all verses from Genesis Chapter 1
+```
+
+### Quick Read
+```
+User: /read John 3:16
+Bot: 📖 John 3:16
+     For God so loved the world, that he gave his only begotten Son...
+```
+
+## Project Structure 📁
+
+```
+Bible/
+├── bot.js           # Main bot application
+├── config.js        # Configuration file
+├── bible.json       # Bible data (books, chapters, verses)
+├── package.json     # Node.js dependencies
+├── .gitignore       # Git ignore rules
+└── README.md        # This file
+```
+
+## Error Handling 🛡️
 
 The bot includes comprehensive error handling:
 
-- **Invalid books**: Displays error message if book not found
-- **Invalid chapters**: Alerts user when chapter doesn't exist
-- **Invalid verses**: Shows error for non-existent verses
-- **Long messages**: Automatically splits messages over 4096 characters
-- **Connection errors**: Logs polling and bot errors
-
-## Development 💻
-
-### Code Style
-
-- Well-commented code with JSDoc-style documentation
-- Modular architecture with separated concerns
-- Clean and readable variable/function naming
-- Consistent formatting throughout
-
-### Testing
-
-To test the bot locally:
-
-1. Set up your bot token in `.env`
-2. Run `npm start`
-3. Open Telegram and find your bot
-4. Try all commands and navigation features
+- **Invalid Book**: Notifies user and suggests using `/books`
+- **Invalid Chapter**: Shows available chapters for the selected book
+- **Invalid Verse**: Shows available verses for the selected chapter
+- **Wrong Format**: Provides usage examples for `/read` command
+- **Bot Errors**: Logs errors and continues running
 
 ## Dependencies 📦
 
-- `node-telegram-bot-api` - Telegram Bot API wrapper
-- `dotenv` - Environment variable management
+- **node-telegram-bot-api** (^0.66.0) - Telegram Bot API wrapper
+- **node-cron** (^3.0.3) - Task scheduler for daily verses
+
+## Development 💻
+
+### Adding More Bible Content
+
+To add more books, chapters, or verses, edit `bible.json`:
+
+```json
+{
+  "books": [
+    {
+      "name": "YourBook",
+      "chapters": [
+        {
+          "chapter": 1,
+          "verses": [
+            { "verse": 1, "text": "Your verse text..." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Testing
+
+Start the bot and test commands:
+```bash
+npm start
+```
+
+Open Telegram and find your bot, then test:
+- `/start`
+- `/dailyverse`
+- `/books`
+- `/read John 3:16`
 
 ## Contributing 🤝
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Feel free to:
+- Add more Bible verses to `bible.json`
+- Improve error handling
+- Add new features
+- Fix bugs
 
 ## License 📄
 
-ISC
+ISC License
 
 ## Support 💬
 
-If you encounter any issues or have questions, please open an issue on GitHub.
+For issues or questions, please open an issue on GitHub.
 
 ---
 
-**May God bless you!** 🙏
+Made with ❤️ for spreading the Word of God

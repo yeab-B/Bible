@@ -1,7 +1,7 @@
 {
-  "name": "bible",
+  "name": "bible-telegram-bot",
   "version": "1.0.0",
-  "description": "A Telegram bot that provides daily Bible verses and allows users to browse and read the Bible",
+  "description": "Telegram bot that sends daily Bible verses and allows Bible reading",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
@@ -11,16 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/yeab-B/Bible.git"
   },
-  "keywords": [],
+  "keywords": ["telegram", "bot", "bible", "verses", "daily"],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/yeab-B/Bible/issues"
   },
   "homepage": "https://github.com/yeab-B/Bible#readme",
   "dependencies": {
-    "dotenv": "^17.2.3",
-    "node-telegram-bot-api": "^0.67.0"
+    "node-telegram-bot-api": "^0.66.0",
+    "node-cron": "^3.0.3"
   }
 }

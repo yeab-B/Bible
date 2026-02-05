@@ -2,10 +2,10 @@
   "name": "bible-telegram-bot",
   "version": "1.0.0",
   "description": "Telegram bot that sends daily Bible verses and allows Bible reading",
-  "main": "bot.js",
+  "main": "src/bot.js",
   "scripts": {
-    "start": "node bot.js",
-    "test": "node test.js"
+    "start": "node src/bot.js",
+    "test": "node tests/test.js"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const cron = require('node-cron');
 const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 
 // Initialize bot
@@ -9,7 +10,7 @@ const bot = new TelegramBot(config.botToken, { polling: true });
 // Load Bible data
 let bibleData;
 try {
-  const rawData = fs.readFileSync('./bible.json', 'utf8');
+  const rawData = fs.readFileSync(path.join(__dirname, '../data/bible.json'), 'utf8');
   bibleData = JSON.parse(rawData);
 } catch (error) {
   console.error('Error loading bible.json:', error);
